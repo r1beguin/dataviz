@@ -13,6 +13,7 @@
     "ol": "^6.4.3",
     "openlayers": "^4.6.5",
     "react": "^16.13.1",
+    "react-component-export-image": "^0.1.7",
     "react-dom": "^16.13.1",
     "react-leaflet": "^2.7.0",
     "react-openlayers": "^0.3.0",
