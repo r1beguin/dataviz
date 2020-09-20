@@ -1,5 +1,5 @@
 import React from "react";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import { Map, TileLayer, Marker, Popup, withLeaflet } from "react-leaflet";
 import "./MapBox.css";
 import { Box, Button, RangeInput, Text, RadioButtonGroup } from "grommet";
 import { exportComponentAsPNG } from "react-component-export-image";
@@ -101,7 +101,7 @@ const MapBox = () => {
         </Box>
       )}
       <Box margin="small">
-        <Resizable defaultSize={{ width: 600, height: 300 }}>
+        <Resizable defaultSize={{ width: 1000, height: 600 }}>
           <Map
             center={[48.847, 2.343]}
             zoom={12}
