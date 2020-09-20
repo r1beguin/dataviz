@@ -1,13 +1,31 @@
 import React from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import "./MapBox.css";
-import { Box, Button, RangeInput, Text } from "grommet";
+import { Box, Button, RangeInput, Text, RadioButtonGroup } from "grommet";
 import { exportComponentAsPNG } from "react-component-export-image";
+import { Resizable } from "re-resizable";
 
 const MapBox = () => {
   const [data, setData] = React.useState([]);
-  const [tile, setTile] = React.useState("osm");
+  const [tile, setTile] = React.useState(0);
   const [composing, setComposing] = React.useState(50);
+  const [maps] = React.useState([
+    {
+      name: "osm",
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    },
+    {
+      name: "ign",
+      url:
+        "https://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIXSET=PM&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}&STYLE=normal&FORMAT=image/jpeg",
+    },
+    {
+      name: "map",
+      url:
+        "https://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&TILEMATRIXSET=PM&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}&STYLE=normal&FORMAT=image/jpeg",
+    },
+  ]);
+  const [pair, setPair] = React.useState([0, 1]);
 
   const componentRef = React.useRef();
 
@@ -20,52 +38,103 @@ const MapBox = () => {
   }, []);
 
   return (
-    <Box height="medium" width="large" margin="small" align="center">
+    <Box margin="small" align="center">
       <Box margin="small" direction="row" gap="small" align="center">
-        <Button onClick={() => setTile("osm")} label="OSM"></Button>
-        <Button onClick={() => setTile("ign")} label="Vue aérienne"></Button>
-        <Button onClick={() => setTile("map")} label="Carte IGN"></Button>
-        <Button onClick={() => setTile("test")} label="Mix Aéro/IGN"></Button>
+        <Button
+          onClick={() => setTile(0)}
+          label="OSM"
+          color={tile === 0 && "red"}
+        ></Button>
+        <Button
+          onClick={() => setTile(1)}
+          label="Vue aérienne"
+          color={tile === 1 && "red"}
+        ></Button>
+        <Button
+          onClick={() => setTile(2)}
+          label="Carte IGN"
+          color={tile === 2 && "red"}
+        ></Button>
+        <Button
+          onClick={() => setTile(3)}
+          label="Mix"
+          color={tile === 3 && "red"}
+        ></Button>
       </Box>
-      <Map
-        center={[48.847, 2.343]}
-        zoom={12}
-        ref={componentRef}
-        zoomControl={false}
-        attributionControl={false}
-      >
-        {tile === "osm" ? (
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        ) : tile === "ign" ? (
-          <TileLayer url="https://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIXSET=PM&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}&STYLE=normal&FORMAT=image/jpeg" />
-        ) : tile === "map" ? (
-          <TileLayer url="https://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&TILEMATRIXSET=PM&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}&STYLE=normal&FORMAT=image/jpeg" />
-        ) : (
-          <>
-            <TileLayer
-              url="https://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&TILEMATRIXSET=PM&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}&STYLE=normal&FORMAT=image/jpeg"
-              opacity={composing / 100}
-              zIndex={2}
+      {tile === 3 && (
+        <Box margin="small" direction="row">
+          <Box margin="small" align="center">
+            <Text>Carte 1 : </Text>
+            <RadioButtonGroup
+              name="radio"
+              options={[
+                { label: "OSM", value: 0 },
+                { label: "Aéro", value: 1 },
+                { label: "IGN", value: 2 },
+              ]}
+              value={pair[0]}
+              onChange={(event) => {
+                const newArr = [...pair];
+                newArr[0] = parseInt(event.target.value);
+                setPair(newArr);
+                console.log(pair);
+              }}
             />
-            <TileLayer
-              url="https://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&TILEMATRIXSET=PM&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}&STYLE=normal&FORMAT=image/jpeg"
-              zIndex={1}
+          </Box>
+          <Box margin="small" align="center">
+            <Text>Carte 2 : </Text>
+            <RadioButtonGroup
+              name="radio"
+              options={[
+                { label: "OSM", value: 0 },
+                { label: "Aéro", value: 1 },
+                { label: "IGN", value: 2 },
+              ]}
+              value={pair[1]}
+              onChange={(event) => {
+                const newArr = [...pair];
+                newArr[1] = parseInt(event.target.value);
+                setPair(newArr);
+              }}
             />
-          </>
-        )}
+          </Box>
+        </Box>
+      )}
+      <Box margin="small">
+        <Resizable defaultSize={{ width: 600, height: 300 }}>
+          <Map
+            center={[48.847, 2.343]}
+            zoom={12}
+            ref={componentRef}
+            zoomControl={false}
+            attributionControl={false}
+          >
+            {tile === 3 ? (
+              <>
+                <TileLayer
+                  url={maps[pair[0]].url}
+                  opacity={composing / 100}
+                  zIndex={2}
+                />
+                <TileLayer url={maps[pair[1]].url} zIndex={1} />
+              </>
+            ) : (
+              <TileLayer url={maps[tile].url} />
+            )}
 
-        {data.map((item) => (
-          <Marker position={item.fields.geo_point_2d}>
-            <Popup>
-              <Box margin="small" overflow="scroll" height="small">
-                <Text size="small">{item.fields.geo_point_2d}</Text>
-                <Text size="small">{item.fields.synthese}</Text>
-              </Box>
-            </Popup>
-          </Marker>
-        ))}
-      </Map>
-      {tile === "test" && (
+            {data.map((item) => (
+              <Marker position={item.fields.geo_point_2d}>
+                <Popup>
+                  <Box margin="small" overflow="scroll" height="small">
+                    <Text size="small">{item.fields.synthese}</Text>
+                  </Box>
+                </Popup>
+              </Marker>
+            ))}
+          </Map>
+        </Resizable>
+      </Box>
+      {tile === 3 && (
         <Box margin="small" gap="small" align="center">
           <Text>Opacité</Text>
           <RangeInput

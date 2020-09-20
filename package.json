@@ -12,6 +12,7 @@
     "leaflet": "^1.7.1",
     "ol": "^6.4.3",
     "openlayers": "^4.6.5",
+    "re-resizable": "^6.5.5",
     "react": "^16.13.1",
     "react-component-export-image": "^0.1.7",
     "react-dom": "^16.13.1",
