@@ -144,9 +144,7 @@ const MapBox = () => {
             zoom={12}
             closeResultsOnClick={true}
             openSearchOnLoad={false}
-          >
-            <Marker></Marker>
-          </ReactLeafletSearch>
+          ></ReactLeafletSearch>
 
           {data.map((item) => (
             <Marker position={item.fields.geo_point_2d}>
