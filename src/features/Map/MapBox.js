@@ -7,7 +7,7 @@ import ReactLeafletSearch from "react-leaflet-search";
 
 const MapBox = () => {
   const [data, setData] = React.useState([]);
-  const [tile, setTile] = React.useState(0);
+  const [tile, setTile] = React.useState(3);
   const [composing, setComposing] = React.useState(50);
   const [maps] = React.useState([
     {
@@ -25,7 +25,7 @@ const MapBox = () => {
         "https://wxs.ign.fr/pratique/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&TILEMATRIXSET=PM&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}&STYLE=normal&FORMAT=image/jpeg",
     },
   ]);
-  const [pair, setPair] = React.useState([0, 1]);
+  const [pair, setPair] = React.useState([2, 1]);
 
   const componentRef = React.useRef();
 
