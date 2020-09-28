@@ -17,7 +17,6 @@ function App() {
   return (
     <Grommet theme={theme} full>
       <Box fill align="center" justify="center">
-        <Text>DataViz</Text>
         <MapBox />
       </Box>
     </Grommet>
