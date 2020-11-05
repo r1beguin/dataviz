@@ -12,6 +12,7 @@ import {
 import { exportComponentAsPNG } from "react-component-export-image";
 import ReactLeafletSearch from "react-leaflet-search";
 
+
 const MapBox = () => {
   const [data, setData] = React.useState([]);
   const [tile, setTile] = React.useState(3);
@@ -29,11 +30,10 @@ const MapBox = () => {
 
   React.useEffect(() => {
     // Coder ici l'appel à l'api de votre choix, exemple :
-    // fetch(
-    //   "https://opendata.paris.fr/api/records/1.0/search/?dataset=referentiel-archeologique-de-paris&q=&facet=code_postal&facet=nature_operation&facet=responsable_operation&facet=date_operation&facet=prehistoire&facet=protohistoire&facet=antiquite&facet=moyen_age&facet=temps_modernes&facet=epoque_contemporaine"
-    // )
-    //   .then((response) => response.json())
-    //   .then((data) => setData(data.records));
+    fetch(
+"https://www.data.gouv.fr/fr/datasets/r/6a55e26f-f730-478c-b33d-4401b8e5bdf4"    )
+      .then((response) => response.json())
+      .then((data) => setData(data.features));
   }, []);
 
   return (
@@ -92,18 +92,18 @@ const MapBox = () => {
 
             {showInfo && (
               // Coder ici l'affichage de vos marqueurs (remplacer dans les <></> qui suivent)
-              // data.map((item) => (
-              //   <Marker position={ CHEMIN JSON COORDONNEES }>
-              //     <Popup>
-              //       <Box margin="small" overflow="scroll" height="small">
-              //         <Text size="small">{ CHEMIN JSON INFO}</Text>
-              //       </Box>
-              //     </Popup>
-              //   </Marker>
-              // ))
+              data.map((item) => (
+                <Marker position={ [item.geometry.coordinates[1], item.geometry.coordinates[0] ] } >
+                  <Popup>
+                    <Box margin="small" overflow="scroll" height="small">
+                      {/* <Text size="small">{ CHEMIN JSON INFO}</Text> */}
+                    </Box>
+                  </Popup>
+                </Marker>
+              ))
 
               // remplacer (<></>) par votre code
-              <></>
+              
             )}
           </Map>
         </Box>
