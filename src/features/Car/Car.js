@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Text, Meter, Stack, Chart, Tabs, Tab, Select} from "grommet";
+import { Box, Text, Meter, Stack, Chart, Tabs, Tab, Select, ResponsiveContext} from "grommet";
 
 import dataRaw from '../../data.json';
 
@@ -13,7 +13,7 @@ const RangeChart = ({ color, label, value, max }) => (
         type="bar"
         values={[{ value: [1, value] }]}
         color={color}
-        round
+        
         size={{ height: 'small', width: 'xxsmall' }}
       />
       <Box  margin={{top: "xlarge"}} justify="start" align="center">
@@ -31,6 +31,9 @@ const Car = () => {
     const [efficiency, setEfficiency] = React.useState([]);
     const [charge, setCharge] = React.useState([]);
     const [speed, setSpeed] = React.useState([]);
+
+    const size = React.useContext(ResponsiveContext);
+
 
     const compare = (a,b) => {
         let comparison = 0;
@@ -90,89 +93,91 @@ const Car = () => {
   
     return(
         <Box align="center" margin="medium">
-         <Box direction="row" gap="small" margi="small">
-            <Box>
-                <Text>Voitures électriques</Text>
+         <Box direction={size !== "small" ? 'row' : 'column'} gap="small" margin="small" height="medium">
+            <Box  justify="center" align="center">
+                <Text size={size}>Voitures électriques</Text>
                 {/* <Box margin="small" gap="small" height="medium" overflow="auto">
                     {data.map((item,i) => (
                         <Text onClick={()=> setIndex(i)} color={index===i && 'red'}>{item.model}</Text>
                     ))}
                 </Box> */}
                 <Select
-          size="medium"
-          placeholder="Select"
-          value={value}
-          options={options}
-          onChange={({ option }) => {
-              setValue(option);
-              console.log(parseInt(option.match(/^([\D]){1,3}/g)))
-              setIndex(parseInt(option.match(/^([\d]){1,3}/g)))
-            }}
-          onClose={() => setOptions(defaultOptions)}
-          onSearch={text => {
-            // The line below escapes regular expression special characters:
-            // [ \ ^ $ . | ? * + ( )
-            const escapedText = text.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
+                    size="medium"
+                    placeholder="Select"
+                    value={value}
+                    options={options}
+                    onChange={({ option }) => {
+                        setValue(option);
+                        console.log(parseInt(option.match(/^([\D]){1,3}/g)))
+                        setIndex(parseInt(option.match(/^([\d]){1,3}/g)))
+                        }}
+                    onClose={() => setOptions(defaultOptions)}
+                    onSearch={text => {
+                        // The line below escapes regular expression special characters:
+                        // [ \ ^ $ . | ? * + ( )
+                        const escapedText = text.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&');
 
-            // Create the regular expression with modified value which
-            // handles escaping special characters. Without escaping special
-            // characters, errors will appear in the console
-            const exp = new RegExp(escapedText, 'i');
-            setOptions(defaultOptions.filter(o => exp.test(o)));
-          }}
-        />
+                        // Create the regular expression with modified value which
+                        // handles escaping special characters. Without escaping special
+                        // characters, errors will appear in the console
+                        const exp = new RegExp(escapedText, 'i');
+                        setOptions(defaultOptions.filter(o => exp.test(o)));
+                    }}
+                />
             </Box>
-            <Box align="center">
-                <Text>Stats</Text>
-                    <Text>{data[index].model}</Text>
-                <Box margin="small" gap="small"  direction="row" align="center">
-                    <Box align="center" gap="small">
-                        <Text>0 à 100km/h</Text>
-                    <Stack anchor="center" >
-                        <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (2/parseInt(data[index].acceleration.replace( /^\D+/g, '')))*100 }]} />
-                        <Box align="center">
-                            <Text >{data[index].acceleration}</Text>
-                        </Box>
-                    </Stack>
+            <Box align="center" justify="center" gap="medium" margin="small">
+               <Box align="center" justify="center" margin="small">
+                    <Text size={size}>Stats</Text>
+                    <Text size={size}>{data[index].model}</Text>
+               </Box>
+                <Box fill  direction="row" align="center">
+                    <Box align="center" gap="small" justify="center">
+                        <Text size={size}>0 à 100km/h</Text>
+                        <Stack anchor="center" >
+                            <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (2/parseInt(data[index].acceleration.replace( /^\D+/g, '')))*100 }]} />
+                            <Box align="center" justify="center">
+                                <Text size="small">{data[index].acceleration}</Text>
+                            </Box>
+                        </Stack>
                     </Box>
                     <Box align="center" gap="small">
-                        <Text>Vitesse max</Text>
-                    <Stack anchor="center" >
-                        <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (parseInt(data[index].topspeed.replace( /^\D+/g, ''))/410)*100 }]} />
-                        <Box align="center">
-                            <Text >{data[index].topspeed}</Text>
-                        </Box>
-                    </Stack>
+                        <Text size={size}>Vitesse max</Text>
+                        <Stack anchor="center" >
+                            <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (parseInt(data[index].topspeed.replace( /^\D+/g, ''))/410)*100 }]} />
+                            <Box align="center">
+                                <Text size="small">{data[index].topspeed}</Text>
+                            </Box>
+                        </Stack>
                     </Box>
                     <Box align="center" gap="small">
-                        <Text>Efficience</Text>
-                    <Stack anchor="center" >
-                        <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (100/parseInt(data[index].efficiency.replace( /^\D+/g, '')))*100 }]} />
-                        <Box align="center">
-                            <Text >{data[index].efficiency}</Text>
-                        </Box>
-                    </Stack>
+                        <Text size={size}>Efficience</Text>
+                        <Stack anchor="center" >
+                            <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (100/parseInt(data[index].efficiency.replace( /^\D+/g, '')))*100 }]} />
+                            <Box align="center">
+                                <Text size="small">{data[index].efficiency}</Text>
+                            </Box>
+                        </Stack>
                     </Box>
-                    </Box>
-                    <Box margin="small" gap="small"  direction="row" align="center">
+                </Box>
+                <Box gap="medium"   direction="row" align="center" >
 
-                    <Box align="center" gap="small">
-                        <Text>Autonomie</Text>
-                    <Stack anchor="center" >
-                        <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (parseInt(data[index].range.replace( /^\D+/g, ''))/1000)*100 }]} />
-                        <Box align="center">
-                            <Text >{data[index].range}</Text>
-                        </Box>
-                    </Stack>
+                    <Box align="center" gap="small" >
+                        <Text size={size}>Autonomie</Text>
+                        <Stack anchor="center" >
+                            <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (parseInt(data[index].range.replace( /^\D+/g, ''))/1000)*100 }]} />
+                            <Box align="center">
+                                <Text size="small">{data[index].range}</Text>
+                            </Box>
+                        </Stack>
                     </Box>
                     <Box align="center" gap="small">
-                        <Text>Charge rapide</Text>
-                    <Stack anchor="center" >
-                        <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (parseInt(data[index].charge.replace( /^\D+/g, ''))/1000)*100 }]} />
-                        <Box align="center">
-                            <Text >{data[index].charge}</Text>
-                        </Box>
-                    </Stack>
+                        <Text size={size}>Charge rapide</Text>
+                        <Stack anchor="center" >
+                            <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (parseInt(data[index].charge.replace( /^\D+/g, ''))/1000)*100 }]} />
+                            <Box align="center">
+                                <Text size="small">{data[index].charge}</Text>
+                            </Box>
+                        </Stack>
                     </Box>
                 </Box>
             </Box>
