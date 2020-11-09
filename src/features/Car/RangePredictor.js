@@ -258,7 +258,10 @@ const RangePredictor = () => {
 
             <TextInput placeholder="battery size"  onChange={e => setInput(parseInt(e.target.value))} />
             <Button label="Predict" onClick={()=> setPredict(true)} />
-            <Text>{output}</Text>
+            {output && (
+                <Text>{ output.toString().match(/^\d*/g)} km</Text>
+            )}
+            
             
         </Box>
     )
