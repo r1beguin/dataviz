@@ -250,7 +250,6 @@ const RangePredictor = () => {
 
                     </ScatterChart>
                 
-                   
                 </Box>
             )}
             
@@ -262,7 +261,8 @@ const RangePredictor = () => {
                 <Text>{ output.toString().match(/^\d*/g)} km</Text>
             )}
             
-            
+            <Box height="medium"/>
+                   
         </Box>
     )
 }
