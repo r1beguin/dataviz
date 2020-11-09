@@ -4,6 +4,7 @@ import { Grommet, Box, Text } from "grommet";
 import MapBox from "./features/Map/MapBox";
 import Car from "./features/Car/Car";
 import CarTest from "./features/Car/CarTest";
+import RangePredictor from "./features/Car/RangePredictor";
 
 const theme = {
   global: {
@@ -18,8 +19,9 @@ const theme = {
 function App() {
   return (
     <Grommet theme={theme} full>
-      <Box fill align="center" justify="center">
+      <Box  align="center" justify="center" background="dark-2" gap="medium">
         <Car />
+        <RangePredictor />
       </Box>
     </Grommet>
   );

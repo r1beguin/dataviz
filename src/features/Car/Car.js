@@ -92,10 +92,10 @@ const Car = () => {
 
   
     return(
-        <Box align="center" margin="medium">
+        <Box align="center" margin="medium" >
          <Box direction={size !== "small" ? 'row' : 'column'} gap="small" margin="small" height="medium">
             <Box  justify="center" align="center">
-                <Text size={size}>Voitures électriques</Text>
+                <Text size={size}>EVs</Text>
                 {/* <Box margin="small" gap="small" height="medium" overflow="auto">
                     {data.map((item,i) => (
                         <Text onClick={()=> setIndex(i)} color={index===i && 'red'}>{item.model}</Text>
@@ -132,7 +132,7 @@ const Car = () => {
                </Box>
                 <Box fill  direction="row" align="center">
                     <Box align="center" gap="small" justify="center">
-                        <Text size={size}>0 à 100km/h</Text>
+                        <Text size={size}>0 to 100km/h</Text>
                         <Stack anchor="center" >
                             <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (2/parseInt(data[index].acceleration.replace( /^\D+/g, '')))*100 }]} />
                             <Box align="center" justify="center">
@@ -141,7 +141,7 @@ const Car = () => {
                         </Stack>
                     </Box>
                     <Box align="center" gap="small">
-                        <Text size={size}>Vitesse max</Text>
+                        <Text size={size}>Topspeed</Text>
                         <Stack anchor="center" >
                             <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (parseInt(data[index].topspeed.replace( /^\D+/g, ''))/410)*100 }]} />
                             <Box align="center">
@@ -150,7 +150,7 @@ const Car = () => {
                         </Stack>
                     </Box>
                     <Box align="center" gap="small">
-                        <Text size={size}>Efficience</Text>
+                        <Text size={size}>Efficiency</Text>
                         <Stack anchor="center" >
                             <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (100/parseInt(data[index].efficiency.replace( /^\D+/g, '')))*100 }]} />
                             <Box align="center">
@@ -162,7 +162,7 @@ const Car = () => {
                 <Box gap="medium"   direction="row" align="center" >
 
                     <Box align="center" gap="small" >
-                        <Text size={size}>Autonomie</Text>
+                        <Text size={size}>Range</Text>
                         <Stack anchor="center" >
                             <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (parseInt(data[index].range.replace( /^\D+/g, ''))/1000)*100 }]} />
                             <Box align="center">
@@ -171,7 +171,7 @@ const Car = () => {
                         </Stack>
                     </Box>
                     <Box align="center" gap="small">
-                        <Text size={size}>Charge rapide</Text>
+                        <Text size={size}>FastCharge</Text>
                         <Stack anchor="center" >
                             <Meter size= "xsmall" thickness="small" type="circle" values={[{"value": (parseInt(data[index].charge.replace( /^\D+/g, ''))/1000)*100 }]} />
                             <Box align="center">
@@ -182,9 +182,10 @@ const Car = () => {
                 </Box>
             </Box>
         </Box> 
-        <Text margin="small">Classements</Text>
-        <Tabs>
-            <Tab title="Autonomies (km)">
+        <Text margin="small">Ranking</Text>
+        <Box fill="horizontal" pad="small" align="center" justify="center">
+        <Tabs margin="small" >
+            <Tab title="Range (km)">
                 <Box margin="small" direction="row" gap="0px" overflow="auto" height="medium" width="xlarge">
                     
                     {ranges.map((item,i) => {
@@ -193,7 +194,7 @@ const Car = () => {
                     )})}
                 </Box>
             </Tab>
-            <Tab title="Vitesse max (km/h)">
+            <Tab title="Topspeed (km/h)">
                 <Box margin="small" direction="row" gap="0px" overflow="auto" height="medium"  width="xlarge">
                     
                     {speed.map((item,i) => {
@@ -202,7 +203,7 @@ const Car = () => {
                     )})}
                 </Box>
             </Tab>
-            <Tab title="0 à 100 (sec)">
+            <Tab title="0 to 100 (sec)">
                 <Box margin="small" direction="row" gap="0px" overflow="auto" height="medium"  width="xlarge">
                     
                     {accel.map((item,i) => {
@@ -211,7 +212,7 @@ const Car = () => {
                     )})}
                 </Box>
             </Tab>
-            <Tab title="Efficience (Wh/km)">
+            <Tab title="Efficiency (Wh/km)">
                 <Box margin="small" direction="row" gap="0px" overflow="auto" height="medium"  width="xlarge">
                     
                     {efficiency.map((item,i) => {
@@ -220,7 +221,7 @@ const Car = () => {
                     )})}
                 </Box>
             </Tab>
-            <Tab title="Charge (km/h)">
+            <Tab title="FastCharge (km/h)">
                 <Box margin="small" direction="row" gap="0px" overflow="auto" height="medium"  width="xlarge">
                     
                     {charge.map((item,i) => {
@@ -230,6 +231,7 @@ const Car = () => {
                 </Box>
             </Tab>
         </Tabs>
+        </Box>
         </Box>
     )
 }
