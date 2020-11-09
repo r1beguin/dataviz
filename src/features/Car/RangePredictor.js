@@ -228,11 +228,11 @@ const RangePredictor = () => {
    
     return (
         <Box margin="medium" gap="medium" align="center" justify="center">
+            <Text>Predict EVs range</Text>
             {showGraph && (
                <Box direction={size === "small" ? ("column-reverse") : ("row")} align="center" justify="center" gap="small">
-                   <Button label="retrain" onClick={() => setTrain(true)}></Button>
-                  
-                    
+                   <Button label="Retrain" onClick={() => setTrain(true)}></Button>
+
                         <ScatterChart
                         width={size === "small" ? 400 : size ==="medium" ? 600 : 800}
                         height={250}
@@ -255,7 +255,7 @@ const RangePredictor = () => {
             
             {/* <Button label="save" onClick={()=> setSave(true)} /> */}
 
-            <TextInput placeholder="battery size"  onChange={e => setInput(parseInt(e.target.value))} />
+            <TextInput placeholder="Enter battery size"  onChange={e => setInput(parseInt(e.target.value))} />
             <Button label="Predict" onClick={()=> setPredict(true)} />
             {output && (
                 <Text>{ output.toString().match(/^\d*/g)} km</Text>

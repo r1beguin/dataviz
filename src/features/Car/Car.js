@@ -1,27 +1,47 @@
 import React from 'react';
 
-import { Box, Text, Meter, Stack, Chart, Tabs, Tab, Select, ResponsiveContext} from "grommet";
-
+import { Box, Text, Meter, Stack, Chart, Tabs, Tab, Select,Drop, ResponsiveContext} from "grommet";
 import dataRaw from '../../data.json';
 
 
-const RangeChart = ({ color, label, value, max }) => (
-    <Box flex={false} width="20px" align="center">
-        <Text  size="0.5em">{value}</Text>
+
+const RangeChart = ({ color, label, value, max }) => {
+    const [over, setOver] = React.useState(false);
+  const ref = React.useRef();
+    
+    return(
+    <Box flex={false} width="10px" align="center" ref={ref}
+    onMouseOver={() => setOver(true)}
+    onMouseLeave={() => setOver(false)}
+    onFocus={() => setOver(true)}
+    onBlur={() => setOver(false)}>
+ 
       <Chart
         bounds={[[0, 2], [0, max]]}
         type="bar"
         values={[{ value: [1, value] }]}
         color={color}
         
-        size={{ height: 'small', width: 'xxsmall' }}
+        size={{ height: 'medium', width: 'xxsmall' }}
       />
-      <Box  margin={{top: "xlarge"}} justify="start" align="center">
-        <Text size="0.8em" truncate wordBreak="keep-all" style={{transform: `rotate(90deg)`}}>{label}</Text>
-        
-      </Box>
+        {ref.current && over && (
+      <Drop
+          plain
+          align={{ left: 'right' }}
+          target={ref.current}
+          margin={{ horizontal: 'small' }}
+          // trapFocus set to false allows tabbing through the buttons
+          trapFocus={false}
+        >
+          <Box pad="small" background="brand">
+            <Text color="white">{label}</Text>
+            <Text >{value}</Text>
+          </Box>
+        </Drop>
+        )}
+   
     </Box>
-  );
+  )};
 
 const Car = () => {
     const [data, setData]= React.useState(dataRaw)
@@ -186,7 +206,7 @@ const Car = () => {
         <Box fill="horizontal" pad="small" align="center" justify="center">
         <Tabs margin="small" >
             <Tab title="Range (km)">
-                <Box margin="small" direction="row" gap="0px" overflow="auto" height="medium" width="xlarge">
+                <Box margin="small" direction="row" gap="0px" overflow="auto"  width="xlarge">
                     
                     {ranges.map((item,i) => {
                         return (
@@ -231,6 +251,7 @@ const Car = () => {
                 </Box>
             </Tab>
         </Tabs>
+        
         </Box>
         </Box>
     )
