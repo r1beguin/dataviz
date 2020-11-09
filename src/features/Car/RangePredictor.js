@@ -107,7 +107,7 @@ function createModel() {
     
    
     const predictedPoints = Array.from(xs).map((val, i) => {
-      return {x: val, y: preds[i]}
+      return {x: val, y: Math.abs(preds[i])}
     });
     
     const originalPoints = inputData.map(d => ({
