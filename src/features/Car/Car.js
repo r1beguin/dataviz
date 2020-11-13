@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Text, Meter, Stack, Chart, Tabs, Tab, Select,Drop, ResponsiveContext} from "grommet";
 import dataRaw from '../../data.json';
 
-
+import PriceGraph from "./PriceGraph";
 
 const RangeChart = ({ color, label, value, max }) => {
     const [over, setOver] = React.useState(false);
@@ -253,6 +253,8 @@ const Car = () => {
         </Tabs>
         
         </Box>
+
+        <PriceGraph />
         </Box>
     )
 }
