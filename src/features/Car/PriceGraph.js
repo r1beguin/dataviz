@@ -20,7 +20,8 @@ const PriceGraph = () => {
                 <YAxis />
                 <Tooltip />
                 
-                <Line type="monotone" dataKey="shares" stroke="#8884d8" />
+                <Line type="monotone" dataKey="shares"  />
+                
             
             </LineChart>
         </Box>
